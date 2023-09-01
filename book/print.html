@@ -1,0 +1,931 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title></title>
+        <meta name="robots" content="noindex" />
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><div><strong aria-hidden="true">1.</strong> Test-Driven-Development in DotNet</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="why-tdd.html"><strong aria-hidden="true">1.2.</strong> Why TDD?</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> Getting Started</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="getting-started/setup.html"><strong aria-hidden="true">2.1.</strong> Setting Up the Project</a></li><li class="chapter-item expanded "><a href="getting-started/first-test.html"><strong aria-hidden="true">2.2.</strong> Writing Our First Test</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Digging Deeper</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="digging-deeper/robust-tests.html"><strong aria-hidden="true">3.1.</strong> Writing More Robust Tests</a></li><li class="chapter-item expanded "><a href="digging-deeper/enhancing-gear-class.html"><strong aria-hidden="true">3.2.</strong> Enhancing Gear Class Through Testing</a></li><li class="chapter-item expanded "><a href="digging-deeper/refactoring-tdd.html"><strong aria-hidden="true">3.3.</strong> Evolving Code Through Test-Driven Refactorings</a></li><li class="chapter-item expanded "><a href="digging-deeper/test-coverage.html"><strong aria-hidden="true">3.4.</strong> Test Coverage</a></li><li class="chapter-item expanded "><a href="digging-deeper/mocking-and-stubbing.html"><strong aria-hidden="true">3.5.</strong> Mocking and Stubbing</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> Best Practice</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="best-practice/parameterizing-tests.html"><strong aria-hidden="true">4.1.</strong> Parameterizing Tests</a></li><li class="chapter-item expanded "><a href="best-practice/staying-organized.html"><strong aria-hidden="true">4.2.</strong> Staying Organized</a></li><li class="chapter-item expanded "><a href="best-practice/best-practices-in-real-world.html"><strong aria-hidden="true">4.3.</strong> Practice Makes Perfect</a></li></ol></li><li class="chapter-item expanded "><a href="conclusion.html"><strong aria-hidden="true">5.</strong> Conclusion</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="net-test-driven-development-primer"><a class="header" href="#net-test-driven-development-primer">.NET Test-Driven Development Primer</a></h1>
+<h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
+<p>TDD is a crucial practice in modern software development that prioritizes writing tests before writing actual code.</p>
+<p>Projects lacking proper tests often end up resembling creations held together by duct tape. Ever experienced changing one part only to find another part failing? It's like trying to fix one bug, only to inadvertently create another. </p>
+<img src="https://i.imgflip.com/2bmd1r.jpg" alt="drawing" width="250"/>
+<p>What if instead, everything worked harmoniously and consistently?</p>
+<p>Imagine a scenario where your team operates seamlessly, like a Formula 1 pit crew in perfect coordination:</p>
+<img src="https://images.fastcompany.net/image/upload/w_1280,f_auto,q_auto,fl_lossy/wp-cms/uploads/2021/10/p-1-how-to-get-your-team-to-work-like-a-formula-one-pit-crew.jpg" alt="drawing" width="365"/>
+<p>Test Driven Development (TDD) transforms your team into a well-oiled machine. 
+This approach not only accelerates your progress but also upholds the highest work quality standards. With a comprehensive suite of tests that run with every change, you'll develop an elevated level of confidence in your codebase. </p>
+<p>This newfound assurance empowers you to explore your creative side without the fear of unexpected &quot;breaks.&quot;</p>
+<p>This tutorial guides you through the creation of a .NET Console Application for calculating gear properties. </p>
+<p>By adhering to the TDD methodology, we ensure that our code is extensively tested, sturdy, and more manageable in the long run. Through this journey, you'll experience how TDD can truly be a &quot;Game Changer.&quot;</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="why-tdd"><a class="header" href="#why-tdd">Why TDD?</a></h1>
+<p><img src="https://miro.medium.com/v2/resize:fit:1400/0*m9IeLR30F2AAtlwu.jpg" alt="TDD Blueprint" /></p>
+<p>Imagine building a complex structure without a blueprint. The result might be unstable and error-prone. Similarly, in software development, writing code without a clear plan can lead to unforeseen bugs and difficulties.</p>
+<p>This is where Test-Driven Development comes into play. TDD is like having a blueprint for your code.</p>
+<p>The TDD process involves three fundamental steps:</p>
+<ol>
+<li>
+<p><strong>Write a failing test</strong></p>
+</li>
+<li>
+<p><strong>Write the minimum code to make it pass</strong></p>
+</li>
+<li>
+<p><strong>Refactor to improve the code without changing its behavior</strong></p>
+</li>
+</ol>
+<p><strong><em>Let's break down these steps further:</em></strong></p>
+<h3 id="1-red-write-a-failing-test"><a class="header" href="#1-red-write-a-failing-test">1. Red: Write a Failing Test</a></h3>
+<p>Consider you're an engineer developing plans for an advanced airliner.</p>
+<p>Before construction begins, meticulous planning is essential to ensure the final aircraft's excellence. This mirrors the essence of Test-Driven Development (TDD).</p>
+<p>The process starts by drafting a test that precisely outlines the desired behavior. Initially, the test purposefully fails since the corresponding code hasn't been generated.</p>
+<p>Just as a well-crafted blueprint is vital before building an airliner, the &quot;red&quot; phase highlights the significance of progressing purposefully towards a clear objective.</p>
+<h3 id="2-green-write-the-minimum-code"><a class="header" href="#2-green-write-the-minimum-code">2. Green: Write the Minimum Code</a></h3>
+<p>Once your failing test is in place, it's time to write the minimum code necessary to make the test pass.</p>
+<p>This step corresponds to assembling the key structural elements of the airliner according to the blueprint.</p>
+<p>In TDD, the code is methodically composed to satisfy the test's conditions.</p>
+<p>Although not exhaustive, the &quot;green&quot; phase effectively demonstrates the code's ability to fulfill the intended task.</p>
+<h3 id="3-refactor-improve-without-changing-behavior"><a class="header" href="#3-refactor-improve-without-changing-behavior">3. Refactor: Improve Without Changing Behavior</a></h3>
+<p>With the airliner's foundational structure in place, refinement follows. In TDD, this entails improving the code's efficiency without changing its core behavior—akin to optimizing the airliner's design to enhance performance without compromising its original intent.</p>
+<p>Through streamlining, optimization, and thoughtful adjustments, the &quot;refactor&quot; phase guarantees code reliability while promoting better organization.</p>
+<p>This tutorial will guide you through the principles and practices of TDD while building a .NET Console Application.</p>
+<p>You'll witness firsthand how TDD helps us build robust, reliable, and well-tested software.</p>
+<p>Let's dive in and explore the world of TDD in .NET development!</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h1>
+<p>Before we dive into writing code, let's make sure we have everything set up correctly. In this section, we'll cover the prerequisites, set up our project, and get familiar with the provided code.</p>
+<h3 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h3>
+<p>Before we begin, ensure you have the following installed on your development machine:</p>
+<ul>
+<li><a href="https://dotnet.microsoft.com/download">.NET SDK</a> - This is the core development platform for building .NET applications. Make sure you have the .NET SDK installed for your platform.</li>
+</ul>
+<h3 id="setting-up-the-project"><a class="header" href="#setting-up-the-project">Setting Up the Project</a></h3>
+<h4 id="step-1-create-a-new-project-folder"><a class="header" href="#step-1-create-a-new-project-folder">Step 1: Create a New Project Folder</a></h4>
+<p>Let's start by creating a dedicated folder for our project. Open your terminal or command prompt and navigate to the directory where you want to create the project folder.</p>
+<pre><code class="language-bash">mkdir GearCalculator
+cd GearCalculator
+</code></pre>
+<h4 id="step-2-create-the-net-console-application"><a class="header" href="#step-2-create-the-net-console-application">Step 2: Create the .NET Console Application</a></h4>
+<p>Now that we have our project folder ready, let's create a .NET Console Application project. Run the following command:</p>
+<pre><code class="language-bash">dotnet new console -n GearCalculator
+</code></pre>
+<p>This command creates a new .NET Console Application project named &quot;GearCalculator&quot; within our project folder.</p>
+<h4 id="step-3-navigate-to-the-project-directory"><a class="header" href="#step-3-navigate-to-the-project-directory">Step 3: Navigate to the Project Directory</a></h4>
+<p>Navigate into the newly created project directory:</p>
+<pre><code class="language-bash">cd GearCalculator
+</code></pre>
+<h4 id="setup-the-gear-class"><a class="header" href="#setup-the-gear-class">Setup the Gear class</a></h4>
+<pre><code class="language-csharp">using System;
+
+namespace GearCalculator
+{
+    public class Gear
+    {
+        // Properties
+        public double Module { get; }
+        public int Teeth { get; }
+        public double PressureAngle { get; }
+
+        // Constructor
+        public Gear(double module, int teeth, double pressureAngle)
+        {
+            Module = module;
+            Teeth = teeth;
+            PressureAngle = pressureAngle;
+        }
+
+        // Methods to calculate properties will be added later
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine(&quot;Hello GearCalculator!&quot;);
+        }
+    }
+}
+</code></pre>
+<h3 id="understanding-the-provided-code"><a class="header" href="#understanding-the-provided-code">Understanding the Provided Code</a></h3>
+<p>Our project structure is now set up, and we're ready to dive into the code. Let's take a closer look at the provided code and understand its components.</p>
+<h4 id="the-gear-class"><a class="header" href="#the-gear-class">The Gear Class</a></h4>
+<p>The <code>Gear</code> class is the heart of our application. It represents a single gear and contains properties to store essential information about the gear. These properties include:</p>
+<ul>
+<li><code>Module</code>: The gear's module, which defines the size of the teeth.</li>
+<li><code>Teeth</code>: The number of teeth on the gear.</li>
+<li><code>PressureAngle</code>: The pressure angle of the gear's teeth.</li>
+</ul>
+<p>In addition to the properties, the <code>Gear</code> class also has methods to calculate various properties of the gear, such as <code>BaseDiameter</code>, <code>Pitch</code>, and <code>PitchDiameter</code>.</p>
+<h4 id="the-program-class"><a class="header" href="#the-program-class">The Program Class</a></h4>
+<p>The <code>Program</code> class serves as the entry point for our console application. Currently, it contains a basic <code>Main</code> method that prints a simple message. We'll be adding more functionality to this class as we progress through the tutorial.</p>
+<h3 id="conclusion"><a class="header" href="#conclusion">Conclusion</a></h3>
+<p>In this section, we've prepared our development environment by setting up the necessary prerequisites and creating a .NET Console Application project. We've also explored the provided code and gained an understanding of the <code>Gear</code> and <code>Program</code> classes.</p>
+<p>In the next section, we'll dive into the exciting world of Test-Driven Development (TDD) by writing our first set of tests for the <code>Gear</code> class. We'll follow the TDD process to ensure that our code is thoroughly tested and functional.</p>
+<p>Now that we have a clear understanding of the project setup and the provided code, it's time to start implementing the Test-Driven Development (TDD) approach. TDD is a powerful methodology that guides us in creating robust and reliable code by writing tests before implementing the actual functionality.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="writing-tests-for-the-gear-class"><a class="header" href="#writing-tests-for-the-gear-class">Writing Tests for the Gear Class</a></h1>
+<p>In this section, we'll focus on writing tests for the <code>Gear</code> class. Our aim is to ensure that the calculations and properties of the <code>Gear</code> class work as expected.</p>
+<h4 id="the-red-green-refactor-process"><a class="header" href="#the-red-green-refactor-process">The Red-Green-Refactor Process</a></h4>
+<p>TDD follows an iterative process known as the <strong>Red-Green-Refactor</strong> cycle. This cycle consists of three steps: <strong>Red</strong>, <strong>Green</strong>, and <strong>Refactor</strong>.</p>
+<ol>
+<li>
+<p><strong>Red</strong>: Write a Failing Test<br />
+In the <strong>Red</strong> phase, we write a test that describes the behavior we want to implement. This test intentionally fails because we haven't written the corresponding code yet. Think of this phase as creating a &quot;blueprint&quot; for the code's functionality.</p>
+</li>
+<li>
+<p><strong>Green</strong>: Write the Minimum Code<br />
+In the <strong>Green</strong> phase, we write the minimum code necessary to make the failing test pass. The goal is to implement the functionality indicated by the test without overcomplicating it. This phase is about making the &quot;duct-taped airplane&quot; fly, using the analogy we discussed earlier.</p>
+</li>
+<li>
+<p><strong>Refactor</strong>: Improve Without Changing Behavior<br />
+In the <strong>Refactor</strong> phase, we improve the code without altering its behavior. This phase is crucial for enhancing the code's readability, maintainability, and efficiency. We can optimize, organize, and clean up the code to make it better.</p>
+</li>
+</ol>
+<h3 id="your-first-test-calculating-base-diameter"><a class="header" href="#your-first-test-calculating-base-diameter">Your First Test: Calculating Base Diameter</a></h3>
+<p>Let's start by writing a test for the <code>BaseDiameter</code> property of the <code>Gear</code> class. The <code>BaseDiameter</code> is a crucial calculation that we want to ensure is correct.</p>
+<h4 id="step-1-creating-a-test-project"><a class="header" href="#step-1-creating-a-test-project">Step 1: Creating a Test Project</a></h4>
+<p>Before we begin writing tests, let's create a separate test project for our unit tests. This isolation helps us maintain a clear separation between the application code and the tests.</p>
+<ol>
+<li>In your terminal or command prompt, navigate back to the root directory of your project:</li>
+</ol>
+<pre><code class="language-bash">cd ..
+</code></pre>
+<ol start="2">
+<li>Create a new xUnit test project named &quot;GearCalculator.Tests&quot;:</li>
+</ol>
+<pre><code class="language-bash">dotnet new xunit -n GearCalculator.Tests
+</code></pre>
+<ol start="3">
+<li>Navigate into the test project directory:</li>
+</ol>
+<pre><code class="language-bash">cd GearCalculator.Tests
+</code></pre>
+<h4 id="step-2-writing-your-first-test"><a class="header" href="#step-2-writing-your-first-test">Step 2: Writing Your First Test</a></h4>
+<p>Let's start by writing your first test for the <code>Gear</code> class. Open the <code>GearTests.cs</code> file located in the <code>Tests</code> folder of your test project.</p>
+<p>Replace the existing content with the following code:</p>
+<pre><code class="language-csharp">using Xunit;
+using GearCalculator;
+
+namespace GearCalculator.Tests
+{
+    public class GearTests
+    {
+        [Fact]
+        public void GetBaseDiameter_WithModuleAndTeeth_ReturnsCorrectValue()
+        {
+            // Arrange
+            var gear = new Gear(1.0, 10, 20.0);
+
+            // Act
+            var result = gear.BaseDiameter;
+
+            // Assert
+            Assert.Equal(4.0808206181339193, result, 10);
+        }
+    }
+}
+</code></pre>
+<p>In this test method, we are using the <strong>Fact</strong> attribute provided by the xUnit framework.
+The <strong>Fact</strong> attribute denotes that this method is a test and should be executed by the test runner.</p>
+<p>Now, let's dive into the Anatomy of a Test, where we break down the <strong>Arrange</strong>, <strong>Act</strong>, and <strong>Assert</strong> steps:</p>
+<ul>
+<li>
+<p><strong>Arrange</strong>: In this section, we set up the necessary objects and data for the test. Here, we create an instance of the <code>Gear</code> class with specific inputs: a module of <code>1.0</code>, <code>10</code> teeth, and a pressure angle of <code>20.0</code>.</p>
+</li>
+<li>
+<p><strong>Act</strong>: This step involves invoking the method or property that we want to test. In our case, we call the <code>BaseDiameter</code> property of the <code>gear</code> instance to calculate the base diameter.</p>
+</li>
+<li>
+<p><strong>Assert</strong>: In this part, we verify the results of the test. We use the <code>Assert.Equal</code> method to compare the expected base diameter value (<code>4.0808206181339193</code>) with the actual result. The third argument, <code>10</code>, specifies the maximum allowable difference between the expected and actual values (also known as the tolerance).</p>
+</li>
+</ul>
+<p>In the upcoming sections, we will write more tests for the <code>Gear</code> class and implement the corresponding functionality to make the tests pass.</p>
+<p><strong>By following the red-green-refactor cycle, we ensure that our code is thoroughly tested and functional.</strong></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="writing-more-robust-tests"><a class="header" href="#writing-more-robust-tests">Writing More Robust Tests</a></h1>
+<p>In our pursuit of Test-Driven Development (TDD), we'll build on the foundation we've established by writing tests for more features of the <code>Gear</code> class.</p>
+<p>By thoroughly testing our code, we ensure its reliability and robustness.</p>
+<h3 id="testing-pitch-calculation"><a class="header" href="#testing-pitch-calculation">Testing Pitch Calculation</a></h3>
+<p>Let's move forward by testing the <code>Pitch</code> calculation in the <code>Gear</code> class. The pitch of a gear is a significant parameter, and we want to validate its accuracy.</p>
+<h4 id="step-3-writing-a-test-for-pitch-calculation"><a class="header" href="#step-3-writing-a-test-for-pitch-calculation">Step 3: Writing a Test for Pitch Calculation</a></h4>
+<ol>
+<li>In the <code>GearTests.cs</code> file located in the <code>Tests</code> folder of your test project, add the following test method:</li>
+</ol>
+<pre><code class="language-csharp">[Theory]
+[InlineData(1.5, 10, 20, 4.7123889803846897)]
+[InlineData(2.0, 20, 30, 6.2831853071795862)]
+[InlineData(0.8, 15, 45, 2.5132741228718345)]
+public void GetPitch_WithModule_ReturnsCorrectValue(double module, int teeth, double pressureAngle, double expectedPitch)
+{
+    // Arrange
+    var gear = new Gear(module, teeth, pressureAngle);
+
+    // Act
+    var result = gear.Pitch;
+
+    // Assert
+    Assert.Equal(expectedPitch, result, 10);
+}
+</code></pre>
+<p>In this test, we've used the <strong>Theory</strong> attribute along with <strong>InlineData</strong> to test the <code>Pitch</code> property with different input values. The test method will be executed for each set of data provided in <strong>InlineData</strong>.</p>
+<p>The test checks whether the calculated pitch matches the expected pitch within a specified tolerance.</p>
+<h3 id="implementing-the-gear-class-functionality"><a class="header" href="#implementing-the-gear-class-functionality">Implementing the Gear Class Functionality</a></h3>
+<p>With our test in place, let's move on to implement the functionality of the <code>Gear</code> class to make the tests pass.</p>
+<h4 id="step-4-implementing-the-gear-class"><a class="header" href="#step-4-implementing-the-gear-class">Step 4: Implementing the <code>Gear</code> Class</a></h4>
+<ol>
+<li>
+<p>Open the <code>Program.cs</code> file located in the root directory of your project.</p>
+</li>
+<li>
+<p>Modify the <code>Gear</code> class constructor to store the provided values:</p>
+</li>
+</ol>
+<pre><code class="language-csharp">public class Gear
+{
+    public Gear(double module, int teeth, double pressureAngle)
+    {
+        Module = module;
+        Teeth = teeth;
+        PressureAngle = pressureAngle;
+    }
+    // ...
+}
+</code></pre>
+<p>With this change, the <code>Gear</code> class constructor now takes the <code>module</code>, <code>teeth</code>, and <code>pressureAngle</code> parameters and assigns them to the corresponding properties.</p>
+<ol start="3">
+<li>Implement the <code>Pitch</code> property calculation in the <code>Gear</code> class:</li>
+</ol>
+<pre><code class="language-csharp">public class Gear
+{
+    Module = module;
+    Teeth = teeth;
+    PressureAngle = pressureAngle;
+
+    // ADD THIS!
+    public double Pitch
+    {
+        get { return Math.PI * Module; }
+    }
+}
+</code></pre>
+<p>The <code>Pitch</code> property now calculates the pitch using the formula <code>Math.PI * Module</code>.</p>
+<h3 id="the-red-green-refactor-cycle-continues"><a class="header" href="#the-red-green-refactor-cycle-continues">The Red-Green-Refactor Cycle Continues</a></h3>
+<p>With the implementation complete, it's time to run our tests and witness the magic of TDD in action. By running the tests, we aim to transition from the <strong>Red</strong> (failing test) phase to the <strong>Green</strong> (passing test) phase.</p>
+<h4 id="step-5-running-the-tests"><a class="header" href="#step-5-running-the-tests">Step 5: Running the Tests</a></h4>
+<ol>
+<li>
+<p>Navigate back to the root directory of your project (if you are in the <code>GearCalculator.Tests</code> folder, use <code>cd ..</code>).</p>
+</li>
+<li>
+<p>Run the tests using the following command:</p>
+</li>
+</ol>
+<pre><code class="language-bash">dotnet test
+</code></pre>
+<p>If all goes well, you should see that the tests pass, indicating that the <code>Gear</code> class functionality is correctly implemented.</p>
+<hr />
+<p><strong>Congratulations!</strong></p>
+<p>By following the Test-Driven Development approach, you've ensured that your code is thoroughly tested and functional. </p>
+<p>You've embraced the red-green-refactor cycle and witnessed how it guides you in creating reliable software.</p>
+<p>In the upcoming sections, we'll continue to write tests, implement code, and refine our application. Stay engaged as we journey further into the world of TDD in .NET development!</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="enhancing-gear-class-through-testing"><a class="header" href="#enhancing-gear-class-through-testing">Enhancing Gear Class Through Testing</a></h1>
+<p>As we continue our exploration of Test-Driven Development (TDD), let's extend our tests to cover additional functionalities of the <code>Gear</code> class. Through systematic testing and incremental development, we build a solid foundation for our code.</p>
+<h3 id="testing-pitch-diameter-calculation"><a class="header" href="#testing-pitch-diameter-calculation">Testing Pitch Diameter Calculation</a></h3>
+<p>Next, we'll write tests to validate the accuracy of the <code>PitchDiameter</code> calculation in the <code>Gear</code> class.</p>
+<h4 id="step-6-writing-tests-for-pitch-diameter-calculation"><a class="header" href="#step-6-writing-tests-for-pitch-diameter-calculation">Step 6: Writing Tests for Pitch Diameter Calculation</a></h4>
+<ol>
+<li>In the <code>GearTests.cs</code> file located in the <code>Tests</code> folder of your test project, add the following test method:</li>
+</ol>
+<pre><code class="language-csharp">[Theory]
+[InlineData(1.5, 10, 20, 15.0)]
+[InlineData(2.0, 20, 30, 40.0)]
+[InlineData(0.8, 15, 45, 12.0)]
+public void GetPitchDiameter_WithModuleAndTeeth_ReturnsCorrectValue(double module, int teeth, double pressureAngle, double expectedPitchDiameter)
+{
+    // Arrange
+    var gear = new Gear(module, teeth, pressureAngle);
+
+    // Act
+    var result = gear.PitchDiameter;
+
+    // Assert
+    Assert.Equal(expectedPitchDiameter, result, 10);
+}
+</code></pre>
+<p>Here, we're using the <strong>Theory</strong> attribute again with <strong>InlineData</strong> to test the <code>PitchDiameter</code> property with different input values. The test checks whether the calculated pitch diameter matches the expected pitch diameter within a specified tolerance.</p>
+<h3 id="implementing-more-gear-class-functionality"><a class="header" href="#implementing-more-gear-class-functionality">Implementing More Gear Class Functionality</a></h3>
+<p>With our new test in place, let's proceed to implement the <code>PitchDiameter</code> property in the <code>Gear</code> class.</p>
+<h4 id="step-7-implementing-the-pitchdiameter-property"><a class="header" href="#step-7-implementing-the-pitchdiameter-property">Step 7: Implementing the <code>PitchDiameter</code> Property</a></h4>
+<ol>
+<li>
+<p>Open the <code>Program.cs</code> file located in the root directory of your project.</p>
+</li>
+<li>
+<p>Add the implementation for the <code>PitchDiameter</code> property in the <code>Gear</code> class:</p>
+</li>
+</ol>
+<pre><code class="language-csharp">public class Gear
+{
+    // ...
+
+    public double PitchDiameter
+    {
+        get { return Module * Teeth; }
+    }
+}
+</code></pre>
+<p>Now, the <code>PitchDiameter</code> property is calculated as the product of <code>Module</code> and <code>Teeth</code>.</p>
+<h3 id="completing-the-red-green-refactor-cycle"><a class="header" href="#completing-the-red-green-refactor-cycle">Completing the Red-Green-Refactor Cycle</a></h3>
+<p>With the implementation in place, let's run our tests again to complete the red-green-refactor cycle.</p>
+<h4 id="step-8-running-the-tests-again"><a class="header" href="#step-8-running-the-tests-again">Step 8: Running the Tests Again</a></h4>
+<ol>
+<li>
+<p>Navigate back to the root directory of your project (if you are in the <code>GearCalculator.Tests</code> folder, use <code>cd ..</code>).</p>
+</li>
+<li>
+<p>Run the tests using the following command:</p>
+</li>
+</ol>
+<pre><code class="language-bash">dotnet test
+</code></pre>
+<p>As the tests pass, we have successfully implemented the <code>PitchDiameter</code> property using the TDD approach.</p>
+<hr />
+<p><strong>You're making great progress!</strong></p>
+<p>By systematically writing tests and implementing code, you're creating a robust application with well-defined functionalities. </p>
+<p>Our journey into TDD and .NET development continues as we explore more aspects of the <code>Gear</code> class.</p>
+<blockquote>
+<p>Moving onward!</p>
+</blockquote>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="evolving-code-through-test-driven-refactorings"><a class="header" href="#evolving-code-through-test-driven-refactorings">Evolving Code Through Test-Driven Refactorings</a></h1>
+<p>As we progress in our Test-Driven Development (TDD) journey, we'll encounter situations where our code needs improvement. Test-Driven Refactorings allow us to enhance our codebase while maintaining its functionality and ensuring the existing tests still pass.</p>
+<h3 id="testing-new-functionality-gear-ratio"><a class="header" href="#testing-new-functionality-gear-ratio">Testing New Functionality: Gear Ratio</a></h3>
+<p>To demonstrate this concept, we'll add a new functionality to the <code>Gear</code> class: calculating the gear ratio. We'll write tests for this new feature and then refactor the code to accommodate it.</p>
+<h4 id="step-9-writing-tests-for-gear-ratio-calculation"><a class="header" href="#step-9-writing-tests-for-gear-ratio-calculation">Step 9: Writing Tests for Gear Ratio Calculation</a></h4>
+<ol>
+<li>In the <code>GearTests.cs</code> file located in the <code>Tests</code> folder of your test project, add the following test method:</li>
+</ol>
+<pre><code class="language-csharp">[Theory]
+[InlineData(1.5, 10, 20, 0.5)]
+[InlineData(2.0, 20, 30, 0.6666666666666666)]
+[InlineData(0.8, 15, 45, 0.3333333333333333)]
+public void GetGearRatio_WithModuleAndTeeth_ReturnsCorrectValue(double module, int teeth, double pressureAngle, double expectedGearRatio)
+{
+    // Arrange
+    var gear = new Gear(module, teeth, pressureAngle);
+
+    // Act
+    var result = gear.GearRatio;
+
+    // Assert
+    Assert.Equal(expectedGearRatio, result, 15);
+}
+</code></pre>
+<p>In this test, we're introducing a new <code>GearRatio</code> property and testing its calculation for various inputs using the <strong>Theory</strong> attribute and <strong>InlineData</strong>.</p>
+<h4 id="step-10-implementing-the-gearratio-property"><a class="header" href="#step-10-implementing-the-gearratio-property">Step 10: Implementing the <code>GearRatio</code> Property</a></h4>
+<ol>
+<li>
+<p>Open the <code>Program.cs</code> file located in the root directory of your project.</p>
+</li>
+<li>
+<p>Add the implementation for the <code>GearRatio</code> property in the <code>Gear</code> class:</p>
+</li>
+</ol>
+<pre><code class="language-csharp">public class Gear
+{
+    // ...
+
+    public double GearRatio
+    {
+        get { return (double)Teeth / Module; }
+    }
+}
+</code></pre>
+<p>The <code>GearRatio</code> is calculated as the ratio of <code>Teeth</code> to <code>Module</code>.</p>
+<h3 id="test-driven-refactoring"><a class="header" href="#test-driven-refactoring">Test-Driven Refactoring</a></h3>
+<p>With the new functionality in place, let's take a moment to perform a test-driven refactoring. This ensures that we maintain our code quality while enhancing its capabilities.</p>
+<h4 id="step-11-running-tests-and-refactoring"><a class="header" href="#step-11-running-tests-and-refactoring">Step 11: Running Tests and Refactoring</a></h4>
+<ol>
+<li>
+<p>Navigate back to the root directory of your project (if you are in the <code>GearCalculator.Tests</code> folder, use <code>cd ..</code>).</p>
+</li>
+<li>
+<p>Run the tests using the following command:</p>
+</li>
+</ol>
+<pre><code class="language-bash">dotnet test
+</code></pre>
+<p>Ensure that all tests pass, confirming the correctness of the newly added functionality.</p>
+<ol start="3">
+<li>Now, let's refine the code to improve readability. In the <code>Gear</code> class, update the <code>GearRatio</code> property implementation to use a clearer variable name:</li>
+</ol>
+<pre><code class="language-csharp">public double GearRatio
+{
+    get { return (double)Teeth / Module; }
+}
+</code></pre>
+<p>With this refactor, we're making the code more understandable and maintaining its functionality.</p>
+<hr />
+<p><strong>Congratulations!</strong></p>
+<p>You've successfully evolved your codebase through test-driven refactorings. By adhering to TDD principles, you've ensured that your application remains reliable while accommodating new features.</p>
+<p>Stay engaged as we continue to explore advanced TDD concepts and delve deeper into .NET development!</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="test-coverage"><a class="header" href="#test-coverage">Test Coverage</a></h1>
+<h2 id="ensuring-code-quality-with-test-coverage"><a class="header" href="#ensuring-code-quality-with-test-coverage">Ensuring Code Quality with Test Coverage</a></h2>
+<p>As we advance in our Test-Driven Development (TDD) journey, it's crucial to emphasize the concept of test coverage. Test coverage measures the proportion of your codebase that is tested by your unit tests. High test coverage is a sign of a well-tested and reliable application.</p>
+<h3 id="understanding-test-coverage"><a class="header" href="#understanding-test-coverage">Understanding Test Coverage</a></h3>
+<p>Test coverage provides insights into which parts of your code are exercised by your tests and which parts are not. High test coverage ensures that potential bugs and issues are identified early, leading to more robust and stable software.</p>
+<h4 id="step-12-measuring-test-coverage"><a class="header" href="#step-12-measuring-test-coverage">Step 12: Measuring Test Coverage</a></h4>
+<ol>
+<li>
+<p>In the terminal or command prompt, navigate to the root directory of your project.</p>
+</li>
+<li>
+<p>Run the tests with coverage using the following command:</p>
+</li>
+</ol>
+<pre><code class="language-bash">dotnet test --collect:&quot;XPlat Code Coverage&quot;
+</code></pre>
+<p>This command runs your tests and collects code coverage information.</p>
+<ol start="3">
+<li>After the tests are executed, you will find a coverage report. Open the coverage report in your web browser to visualize the coverage details.</li>
+</ol>
+<h3 id="interpreting-the-coverage-report"><a class="header" href="#interpreting-the-coverage-report">Interpreting the Coverage Report</a></h3>
+<p>The coverage report provides insights into which parts of your code are covered by tests. Covered lines are indicated in green, while lines that are not covered are highlighted in red.</p>
+<h4 id="step-13-interpreting-the-coverage-report"><a class="header" href="#step-13-interpreting-the-coverage-report">Step 13: Interpreting the Coverage Report</a></h4>
+<ol>
+<li>
+<p>Analyze the coverage report to identify areas of your code that may need additional testing. Focus on achieving high coverage for critical and complex code sections.</p>
+</li>
+<li>
+<p>Iterate by writing more tests to cover untested portions of your code and repeating the process to ensure comprehensive coverage.</p>
+</li>
+</ol>
+<h3 id="embracing-test-driven-development-and-test-coverage"><a class="header" href="#embracing-test-driven-development-and-test-coverage">Embracing Test-Driven Development and Test Coverage</a></h3>
+<p><strong>Congratulations!</strong> </p>
+<p>By combining TDD with a focus on high test coverage, you're creating a powerful approach to developing reliable software. TDD guides you in creating functional code, while test coverage ensures that your entire codebase is well-tested.</p>
+<p>You've gained insights into the importance of test coverage and how it contributes to the quality and reliability of your application. As you continue your journey in TDD and .NET development, remember to strive for comprehensive coverage while writing tests for new features and enhancements.</p>
+<p>Stay engaged as we explore advanced TDD concepts and further enrich our knowledge of .NET development!</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="mocking-and-stubbing"><a class="header" href="#mocking-and-stubbing">Mocking and Stubbing</a></h1>
+<h2 id="mastering-unit-testing-with-test-doubles"><a class="header" href="#mastering-unit-testing-with-test-doubles">Mastering Unit Testing with Test Doubles</a></h2>
+<p>As we deepen our understanding of Test-Driven Development (TDD), it's important to address the challenge of testing code that depends on external components, such as databases or web services. Test doubles, like mocks and stubs, allow us to isolate and control these dependencies during unit testing.</p>
+<h3 id="introducing-test-doubles"><a class="header" href="#introducing-test-doubles">Introducing Test Doubles</a></h3>
+<p>Test doubles are objects that stand in for real components in our tests. They help us control the behavior of dependencies and focus on the unit under test.</p>
+<h4 id="step-14-using-test-doubles"><a class="header" href="#step-14-using-test-doubles">Step 14: Using Test Doubles</a></h4>
+<ol>
+<li>
+<p>In scenarios where you need to test code with external dependencies, use test doubles such as mocks and stubs.</p>
+</li>
+<li>
+<p>Let's consider an example where our <code>Gear</code> class needs to fetch data from a database. We'll use a mock object to simulate database behavior and ensure our tests are isolated and reliable.</p>
+</li>
+</ol>
+<h3 id="writing-tests-with-mocks"><a class="header" href="#writing-tests-with-mocks">Writing Tests with Mocks</a></h3>
+<p>Let's illustrate the concept of using a mock object by considering a scenario where the <code>Gear</code> class interacts with a database.</p>
+<h4 id="step-15-writing-tests-with-mocks"><a class="header" href="#step-15-writing-tests-with-mocks">Step 15: Writing Tests with Mocks</a></h4>
+<ol>
+<li>In the <code>GearTests.cs</code> file located in the <code>Tests</code> folder of your test project, let's create a test that uses a mock to simulate database behavior:</li>
+</ol>
+<pre><code class="language-csharp">using Moq;
+
+// ...
+
+[Fact]
+public void CalculateGearRatio_FromDatabase_ReturnsCorrectValue()
+{
+    // Arrange
+    var mockDatabase = new Mock&lt;IDatabaseService&gt;();
+    mockDatabase.Setup(db =&gt; db.FetchGearRatio()).Returns(0.75);
+    
+    var gear = new Gear(mockDatabase.Object);
+
+    // Act
+    var result = gear.CalculateGearRatioFromDatabase();
+
+    // Assert
+    Assert.Equal(0.75, result);
+}
+</code></pre>
+<p>In this test, we're using the Moq library to create a mock of the <code>IDatabaseService</code> interface. We set up the mock to return a specific value when the <code>FetchGearRatio</code> method is called. This allows us to isolate the <code>Gear</code> class and test its behavior without relying on a real database.</p>
+<h3 id="implementing-code-with-mocked-dependencies"><a class="header" href="#implementing-code-with-mocked-dependencies">Implementing Code with Mocked Dependencies</a></h3>
+<p>Now, let's implement the <code>CalculateGearRatioFromDatabase</code> method in the <code>Gear</code> class, which fetches the gear ratio from the database.</p>
+<h4 id="step-16-implementing-code-with-mocked-dependencies"><a class="header" href="#step-16-implementing-code-with-mocked-dependencies">Step 16: Implementing Code with Mocked Dependencies</a></h4>
+<ol>
+<li>
+<p>Open the <code>Program.cs</code> file located in the root directory of your project.</p>
+</li>
+<li>
+<p>Implement the <code>CalculateGearRatioFromDatabase</code> method in the <code>Gear</code> class:</p>
+</li>
+</ol>
+<pre><code class="language-csharp">public class Gear
+{
+    private readonly IDatabaseService _databaseService;
+
+    public Gear(IDatabaseService databaseService)
+    {
+        _databaseService = databaseService;
+    }
+
+    public double CalculateGearRatioFromDatabase()
+    {
+        return _databaseService.FetchGearRatio();
+    }
+}
+</code></pre>
+<p>By injecting the <code>IDatabaseService</code> interface into the <code>Gear</code> class constructor, we've decoupled it from the actual database implementation.</p>
+<h3 id="embracing-isolation-with-test-doubles"><a class="header" href="#embracing-isolation-with-test-doubles">Embracing Isolation with Test Doubles</a></h3>
+<p>Through the use of test doubles like mocks, you can isolate code from its dependencies, ensuring focused and reliable unit tests. As you encounter scenarios with external dependencies, leverage test doubles to maintain the integrity of your tests and the quality of your application.</p>
+<hr />
+<p><strong>Hell Yeah!</strong> </p>
+<p>You've gained a valuable skill in using test doubles to improve the effectiveness of your unit tests. By mastering the art of isolating dependencies, you're enhancing the reliability of your codebase.</p>
+<p>Stay engaged as we delve into more advanced topics in TDD and further explore the depths of .NET development!</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="parameterizing-tests"><a class="header" href="#parameterizing-tests">Parameterizing Tests</a></h1>
+<h2 id="efficient-testing-with-parameterized-tests"><a class="header" href="#efficient-testing-with-parameterized-tests">Efficient Testing with Parameterized Tests</a></h2>
+<p>As we advance in our Test-Driven Development (TDD) journey, we often encounter situations where we need to test the same functionality with multiple input scenarios. Parameterized tests allow us to achieve this efficiently and maintainable.</p>
+<h3 id="introducing-parameterized-tests"><a class="header" href="#introducing-parameterized-tests">Introducing Parameterized Tests</a></h3>
+<p>Parameterized tests enable us to write a single test method that can be executed with multiple sets of input data. This approach helps us validate the behavior of our code across different scenarios.</p>
+<h4 id="step-17-writing-parameterized-tests"><a class="header" href="#step-17-writing-parameterized-tests">Step 17: Writing Parameterized Tests</a></h4>
+<ol>
+<li>In the <code>GearTests.cs</code> file located in the <code>Tests</code> folder of your test project, let's create a parameterized test to validate gear calculations with various input data:</li>
+</ol>
+<pre><code class="language-csharp">[Theory]
+[InlineData(1.0, 10, 20.0, 4.0808206181339193)]
+[InlineData(1.5, 15, 30.0, 7.539822368615503)]
+[InlineData(2.0, 20, 45.0, 12.566370614359172)]
+public void GearCalculations_ReturnCorrectValues(double module, int teeth, double pressureAngle, double expectedValue)
+{
+    // Arrange
+    var gear = new Gear(module, teeth, pressureAngle);
+
+    // Act
+    var baseDiameter = gear.BaseDiameter;
+    var pitch = gear.Pitch;
+    var pitchDiameter = gear.PitchDiameter;
+
+    // Assert
+    Assert.Equal(expectedValue, baseDiameter, 10);
+    Assert.Equal(expectedValue, pitch, 10);
+    Assert.Equal(expectedValue, pitchDiameter, 10);
+}
+</code></pre>
+<p>In this parameterized test, we're using the <strong>InlineData</strong> attribute to provide different sets of input data for the <code>module</code>, <code>teeth</code>, <code>pressureAngle</code>, and <code>expectedValue</code> parameters. The test method will be executed for each set of data, and the test assertions will validate the calculations.</p>
+<h3 id="achieving-comprehensive-testing-with-efficiency"><a class="header" href="#achieving-comprehensive-testing-with-efficiency">Achieving Comprehensive Testing with Efficiency</a></h3>
+<p>Parameterized tests allow us to achieve comprehensive testing with minimal code duplication. By testing a wide range of scenarios using a single test method, we ensure the robustness of our codebase.</p>
+<hr />
+<p><strong>Yeahhhh!</strong> </p>
+<p>You've unlocked the power of parameterized tests, enabling you to efficiently test your code across various scenarios. By writing tests that cover a multitude of cases, you're increasing the reliability of your application.</p>
+<p>Stay engaged as we explore more advanced TDD concepts and dive deeper into .NET development!</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="staying-organized"><a class="header" href="#staying-organized">Staying Organized</a></h1>
+<h2 id="organizing-tests-with-test-suites"><a class="header" href="#organizing-tests-with-test-suites">Organizing Tests with Test Suites</a></h2>
+<p>As our Test-Driven Development (TDD) project grows, it becomes important to keep our tests organized for better maintainability. Test suites allow us to group related tests together and manage our tests more effectively.</p>
+<h3 id="introducing-test-suites"><a class="header" href="#introducing-test-suites">Introducing Test Suites</a></h3>
+<p>A test suite is a collection of related test cases that focus on specific functionalities or components. By organizing tests into suites, we can easily identify and run tests associated with specific parts of our application.</p>
+<h4 id="step-18-organizing-tests-into-suites"><a class="header" href="#step-18-organizing-tests-into-suites">Step 18: Organizing Tests into Suites</a></h4>
+<ol>
+<li>In the <code>GearTests.cs</code> file located in the <code>Tests</code> folder of your test project, let's organize our tests into suites using the <code>TestClass</code> attribute:</li>
+</ol>
+<pre><code class="language-csharp">using Xunit;
+
+// ...
+
+public class GearTests
+{
+    // Test suite for Gear class properties
+    [Trait(&quot;Category&quot;, &quot;Properties&quot;)]
+    public class PropertiesTests
+    {
+        // ... Existing property tests here ...
+    }
+
+    // Test suite for Gear class methods
+    [Trait(&quot;Category&quot;, &quot;Methods&quot;)]
+    public class MethodsTests
+    {
+        // ... Existing method tests here ...
+    }
+
+    // Test suite for Gear class with mocked dependencies
+    [Trait(&quot;Category&quot;, &quot;MockedDependencies&quot;)]
+    public class MockedDependencyTests
+    {
+        // ... Existing tests with mocks here ...
+    }
+
+    // Parameterized test suite for gear calculations
+    [Trait(&quot;Category&quot;, &quot;Calculations&quot;)]
+    public class CalculationsTests
+    {
+        // ... Existing parameterized tests here ...
+    }
+}
+</code></pre>
+<p>In this example, we're using nested classes to create test suites based on different categories such as properties, methods, mocked dependencies, and calculations. The <code>Trait</code> attribute helps categorize the tests for better organization.</p>
+<h3 id="managing-complexity-with-test-suites"><a class="header" href="#managing-complexity-with-test-suites">Managing Complexity with Test Suites</a></h3>
+<p>As your codebase expands, maintaining a well-organized suite of tests becomes essential. By grouping tests into logical categories, you can manage complexity and locate specific tests more efficiently.</p>
+<p>Congratulations! You've learned how to organize your tests into suites, enhancing the maintainability and manageability of your testing efforts. By categorizing your tests effectively, you're simplifying the process of navigating and running your tests.</p>
+<p>Stay engaged as we dive into more advanced TDD topics and continue our exploration of .NET development!</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="practice-makes-perfect"><a class="header" href="#practice-makes-perfect">Practice Makes Perfect</a></h1>
+<h2 id="applying-tdd-best-practices"><a class="header" href="#applying-tdd-best-practices">Applying TDD Best Practices</a></h2>
+<p>As we become more adept at Test-Driven Development (TDD), it's important to discuss best practices that can help us apply TDD effectively in real-world scenarios.</p>
+<h3 id="real-world-tdd-best-practices-and-considerations"><a class="header" href="#real-world-tdd-best-practices-and-considerations">Real-World TDD: Best Practices and Considerations</a></h3>
+<h4 id="step-19-real-world-tdd-best-practices"><a class="header" href="#step-19-real-world-tdd-best-practices">Step 19: Real-World TDD Best Practices</a></h4>
+<ol>
+<li>
+<p>Start with simple tests: Begin with small, straightforward tests that establish the behavior you're aiming for. As you build confidence, gradually tackle more complex scenarios.</p>
+</li>
+<li>
+<p>Focus on one requirement at a time: Write tests for one requirement, get them to pass, and then move on to the next. This incremental approach ensures that your code evolves with precision.</p>
+</li>
+<li>
+<p>Embrace red-green-refactor: Adhere to the Red-Green-Refactor cycle to drive your development process. Start with a failing test (red), implement the minimum code to make it pass (green), and then refactor to improve code quality.</p>
+</li>
+<li>
+<p>Keep tests independent: Ensure that tests don't rely on the order of execution or the success of other tests. Isolated tests lead to more reliable results.</p>
+</li>
+<li>
+<p>Avoid testing implementation details: Focus on testing the public behavior of your code rather than its internal implementation. This provides flexibility to refactor without breaking tests.</p>
+</li>
+<li>
+<p>Maintain high test coverage: Strive for high test coverage to ensure that your code is thoroughly tested and resilient to changes.</p>
+</li>
+<li>
+<p>Refactor with confidence: When refactoring, rely on your tests to catch regressions. Refactoring becomes safer and faster with comprehensive test coverage.</p>
+</li>
+<li>
+<p>Test edge cases and boundary conditions: Identify and test scenarios at the limits of your input ranges to catch potential issues in your code.</p>
+</li>
+<li>
+<p>Seek simplicity: Aim for simple, readable tests that convey your code's intent clearly. Avoid unnecessary complexity in your tests.</p>
+</li>
+<li>
+<p>Continuously iterate: As your project evolves, revisit and update tests to accommodate new features, bug fixes, and changes in requirements.</p>
+</li>
+</ol>
+<h3 id="a-journey-of-continuous-improvement"><a class="header" href="#a-journey-of-continuous-improvement">A Journey of Continuous Improvement</a></h3>
+<p>Test-Driven Development is not just a process but a mindset. By adhering to best practices and continuously improving your TDD skills, you're fostering a culture of high-quality software development.</p>
+<p><strong>Finish Line In Sight!</strong> </p>
+<p>You've gained a solid understanding of TDD best practices and how to apply them effectively. By embracing these guidelines, you're on a path to creating reliable, maintainable, and robust code.</p>
+<p>Stay engaged as we delve into more advanced topics in TDD and explore the depths of .NET development even further!</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="conclusion-1"><a class="header" href="#conclusion-1">Conclusion</a></h1>
+<h2 id="your-journey-in-test-driven-development"><a class="header" href="#your-journey-in-test-driven-development">Your Journey in Test-Driven Development</a></h2>
+<p>Congratulations! You've embarked on a journey into the world of Test-Driven Development (TDD). Through this tutorial, you've learned fundamental concepts, best practices, and techniques that will empower you to build high-quality software with confidence.</p>
+<h3 id="key-takeaways"><a class="header" href="#key-takeaways">Key Takeaways</a></h3>
+<p>As you reflect on your TDD journey, remember these key takeaways:</p>
+<ul>
+<li>
+<p><strong>Red-Green-Refactor</strong>: The core of TDD lies in the Red-Green-Refactor cycle. Start with a failing test (Red), implement the minimum code to make it pass (Green), and then refactor to improve code quality.</p>
+</li>
+<li>
+<p><strong>Test Coverage</strong>: Strive for high test coverage to ensure thorough testing of your code. Comprehensive tests catch regressions and provide a safety net for refactoring.</p>
+</li>
+<li>
+<p><strong>Isolation with Test Doubles</strong>: Use test doubles like mocks and stubs to isolate your code from external dependencies. This ensures reliable and focused unit tests.</p>
+</li>
+<li>
+<p><strong>Parameterized Tests</strong>: Parameterized tests allow you to efficiently test multiple scenarios using a single test method, enhancing the efficiency of your testing efforts.</p>
+</li>
+<li>
+<p><strong>Organized Test Suites</strong>: Organize your tests into suites based on logical categories. Well-organized tests improve maintainability and help manage complexity.</p>
+</li>
+<li>
+<p><strong>Real-World Application</strong>: Apply TDD best practices to real-world scenarios. Start with simple tests, focus on one requirement at a time, and continuously iterate to create high-quality software.</p>
+</li>
+</ul>
+<h3 id="your-journey-ahead"><a class="header" href="#your-journey-ahead">Your Journey Ahead</a></h3>
+<p>TDD is not just a technique—it's a mindset and a journey. As you move forward, consider these steps:</p>
+<ol>
+<li>
+<p><strong>Practice</strong>: Apply TDD to your projects and practice its principles. The more you practice, the more confident and skilled you'll become.</p>
+</li>
+<li>
+<p><strong>Explore Advanced Topics</strong>: Delve into more advanced TDD concepts, such as integration testing, behavior-driven development (BDD), and testing in a continuous integration environment.</p>
+</li>
+<li>
+<p><strong>Learn from Experience</strong>: Embrace challenges and learn from your experiences. Each test you write and each bug you uncover is an opportunity to improve.</p>
+</li>
+<li>
+<p><strong>Share and Collaborate</strong>: Engage with the software development community. Share your insights, collaborate on open-source projects, and learn from others.</p>
+</li>
+</ol>
+<p>Remember, your journey in TDD is ongoing. Embrace the process, celebrate your successes, and keep striving to become a proficient and confident TDD practitioner.</p>
+<p><img src="https://www.allaboutcircuits.com/uploads/articles/techart_MEMS_1.jpg" alt="MEMS Device" /></p>
+<p>Thank you for joining us on this tutorial. Best of luck on your journey of Test-Driven Development and continuous improvement in software development!</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+    </div>
+    </body>
+</html>

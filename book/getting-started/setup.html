@@ -1,0 +1,306 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Setting Up the Project</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><div><strong aria-hidden="true">1.</strong> Test-Driven-Development in DotNet</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../introduction.html"><strong aria-hidden="true">1.1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../why-tdd.html"><strong aria-hidden="true">1.2.</strong> Why TDD?</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> Getting Started</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../getting-started/setup.html" class="active"><strong aria-hidden="true">2.1.</strong> Setting Up the Project</a></li><li class="chapter-item expanded "><a href="../getting-started/first-test.html"><strong aria-hidden="true">2.2.</strong> Writing Our First Test</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Digging Deeper</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../digging-deeper/robust-tests.html"><strong aria-hidden="true">3.1.</strong> Writing More Robust Tests</a></li><li class="chapter-item expanded "><a href="../digging-deeper/enhancing-gear-class.html"><strong aria-hidden="true">3.2.</strong> Enhancing Gear Class Through Testing</a></li><li class="chapter-item expanded "><a href="../digging-deeper/refactoring-tdd.html"><strong aria-hidden="true">3.3.</strong> Evolving Code Through Test-Driven Refactorings</a></li><li class="chapter-item expanded "><a href="../digging-deeper/test-coverage.html"><strong aria-hidden="true">3.4.</strong> Test Coverage</a></li><li class="chapter-item expanded "><a href="../digging-deeper/mocking-and-stubbing.html"><strong aria-hidden="true">3.5.</strong> Mocking and Stubbing</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> Best Practice</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../best-practice/parameterizing-tests.html"><strong aria-hidden="true">4.1.</strong> Parameterizing Tests</a></li><li class="chapter-item expanded "><a href="../best-practice/staying-organized.html"><strong aria-hidden="true">4.2.</strong> Staying Organized</a></li><li class="chapter-item expanded "><a href="../best-practice/best-practices-in-real-world.html"><strong aria-hidden="true">4.3.</strong> Practice Makes Perfect</a></li></ol></li><li class="chapter-item expanded "><a href="../conclusion.html"><strong aria-hidden="true">5.</strong> Conclusion</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h1>
+<p>Before we dive into writing code, let's make sure we have everything set up correctly. In this section, we'll cover the prerequisites, set up our project, and get familiar with the provided code.</p>
+<h3 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h3>
+<p>Before we begin, ensure you have the following installed on your development machine:</p>
+<ul>
+<li><a href="https://dotnet.microsoft.com/download">.NET SDK</a> - This is the core development platform for building .NET applications. Make sure you have the .NET SDK installed for your platform.</li>
+</ul>
+<h3 id="setting-up-the-project"><a class="header" href="#setting-up-the-project">Setting Up the Project</a></h3>
+<h4 id="step-1-create-a-new-project-folder"><a class="header" href="#step-1-create-a-new-project-folder">Step 1: Create a New Project Folder</a></h4>
+<p>Let's start by creating a dedicated folder for our project. Open your terminal or command prompt and navigate to the directory where you want to create the project folder.</p>
+<pre><code class="language-bash">mkdir GearCalculator
+cd GearCalculator
+</code></pre>
+<h4 id="step-2-create-the-net-console-application"><a class="header" href="#step-2-create-the-net-console-application">Step 2: Create the .NET Console Application</a></h4>
+<p>Now that we have our project folder ready, let's create a .NET Console Application project. Run the following command:</p>
+<pre><code class="language-bash">dotnet new console -n GearCalculator
+</code></pre>
+<p>This command creates a new .NET Console Application project named &quot;GearCalculator&quot; within our project folder.</p>
+<h4 id="step-3-navigate-to-the-project-directory"><a class="header" href="#step-3-navigate-to-the-project-directory">Step 3: Navigate to the Project Directory</a></h4>
+<p>Navigate into the newly created project directory:</p>
+<pre><code class="language-bash">cd GearCalculator
+</code></pre>
+<h4 id="setup-the-gear-class"><a class="header" href="#setup-the-gear-class">Setup the Gear class</a></h4>
+<pre><code class="language-csharp">using System;
+
+namespace GearCalculator
+{
+    public class Gear
+    {
+        // Properties
+        public double Module { get; }
+        public int Teeth { get; }
+        public double PressureAngle { get; }
+
+        // Constructor
+        public Gear(double module, int teeth, double pressureAngle)
+        {
+            Module = module;
+            Teeth = teeth;
+            PressureAngle = pressureAngle;
+        }
+
+        // Methods to calculate properties will be added later
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine(&quot;Hello GearCalculator!&quot;);
+        }
+    }
+}
+</code></pre>
+<h3 id="understanding-the-provided-code"><a class="header" href="#understanding-the-provided-code">Understanding the Provided Code</a></h3>
+<p>Our project structure is now set up, and we're ready to dive into the code. Let's take a closer look at the provided code and understand its components.</p>
+<h4 id="the-gear-class"><a class="header" href="#the-gear-class">The Gear Class</a></h4>
+<p>The <code>Gear</code> class is the heart of our application. It represents a single gear and contains properties to store essential information about the gear. These properties include:</p>
+<ul>
+<li><code>Module</code>: The gear's module, which defines the size of the teeth.</li>
+<li><code>Teeth</code>: The number of teeth on the gear.</li>
+<li><code>PressureAngle</code>: The pressure angle of the gear's teeth.</li>
+</ul>
+<p>In addition to the properties, the <code>Gear</code> class also has methods to calculate various properties of the gear, such as <code>BaseDiameter</code>, <code>Pitch</code>, and <code>PitchDiameter</code>.</p>
+<h4 id="the-program-class"><a class="header" href="#the-program-class">The Program Class</a></h4>
+<p>The <code>Program</code> class serves as the entry point for our console application. Currently, it contains a basic <code>Main</code> method that prints a simple message. We'll be adding more functionality to this class as we progress through the tutorial.</p>
+<h3 id="conclusion"><a class="header" href="#conclusion">Conclusion</a></h3>
+<p>In this section, we've prepared our development environment by setting up the necessary prerequisites and creating a .NET Console Application project. We've also explored the provided code and gained an understanding of the <code>Gear</code> and <code>Program</code> classes.</p>
+<p>In the next section, we'll dive into the exciting world of Test-Driven Development (TDD) by writing our first set of tests for the <code>Gear</code> class. We'll follow the TDD process to ensure that our code is thoroughly tested and functional.</p>
+<p>Now that we have a clear understanding of the project setup and the provided code, it's time to start implementing the Test-Driven Development (TDD) approach. TDD is a powerful methodology that guides us in creating robust and reliable code by writing tests before implementing the actual functionality.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../why-tdd.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../getting-started/first-test.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../why-tdd.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../getting-started/first-test.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
