@@ -17,4 +17,5 @@
     - [Parameterizing Tests](./best-practice/parameterizing-tests.md)
     - [Staying Organized](./best-practice/staying-organized.md)
     - [Practice Makes Perfect](./best-practice/best-practices-in-real-world.md)
+- [Quiz](./quiztest.md)
 - [Conclusion](./conclusion.md)
