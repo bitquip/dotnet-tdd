@@ -1,0 +1,7 @@
+# Final Quiz
+
+[[questions]]
+type = "ShortAnswer"
+prompt.prompt = "What is the keyword for declaring a variable in Rust?"
+answer.answer = "let"
+context = "For example, you can write: `let x = 1`"

@@ -1,0 +1,45 @@
+
+[[questions]]
+type = "MultipleChoice"
+prompt.prompt = "What is the primary benefit of using parameterized tests in Test-Driven Development (TDD)?"
+prompt.distractors = [
+  "Reducing the need for any assertions",
+  "Writing fewer test methods",
+  "Isolating tests from external dependencies"
+]
+answer.answer = "Achieving comprehensive testing with minimal code duplication"
+context = "Parameterized tests in TDD allow us to achieve comprehensive testing with minimal code duplication."
+
+[[questions]]
+type = "MultipleChoice"
+prompt.prompt = "In the provided parameterized test example, what is the purpose of the 'InlineData' attribute?"
+prompt.distractors = [
+  "Ordering the test execution",
+  "Skipping specific test cases",
+  "Changing the data type of input parameters"
+]
+answer.answer = "Providing different sets of input data"
+context = "The 'InlineData' attribute enables providing different sets of input data for the parameterized test."
+
+[[questions]]
+type = "MultipleChoice"
+prompt.prompt = "What does parameterized testing enable in Test-Driven Development (TDD)?"
+prompt.distractors = [
+  "Writing tests without assertions",
+  "Reducing the number of test methods",
+  "Automatically generating test data"
+]
+answer.answer = "Testing with various input scenarios using a single test method"
+context = "Parameterized tests enable testing with various input scenarios using a single test method in TDD."
+
+
+[[questions]]
+type = "MultipleChoice"
+prompt.prompt = "What is the role of the 'Assert' statements in the parameterized test example?"
+prompt.distractors = [
+  "Defining input data",
+  "Creating test categories",
+  "Validating test results"
+]
+answer.answer = "Validating test results"
+context = "The 'Assert' statements in the parameterized test example are used for validating test results."

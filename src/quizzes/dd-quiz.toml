@@ -1,0 +1,21 @@
+[[questions]]
+type = "MultipleChoice"
+prompt.prompt = "What does measuring test coverage help us identify?"
+prompt.distractors = [
+  "The number of test cases",
+  "The quality of the code",
+  "The execution time of tests"
+]
+answer.answer = "Untested code areas"
+context = "Measuring test coverage helps us identify untested code areas."
+
+[[questions]]
+type = "MultipleChoice"
+prompt.prompt = "What is the significance of high test coverage?"
+prompt.distractors = [
+  "Indicates fewer bugs",
+  "Increases code complexity",
+  "Reduces the need for debugging"
+]
+answer.answer = "Indicates thorough testing"
+context = "High test coverage indicates thorough testing of the code."

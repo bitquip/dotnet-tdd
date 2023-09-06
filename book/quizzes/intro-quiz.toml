@@ -1,0 +1,117 @@
+
+[[questions]]
+type = "MultipleChoice"
+prompt.prompt = "When setting up tests for a .NET project, what are the steps?"
+prompt.distractors = [
+  "Lorem",
+  "Dada",
+  "Surrealism"
+]
+answer.answer = "Ipsum"
+context = """
+When setting up tests for a .NET project, one of the steps is 'Ipsum.'
+"""
+
+[[questions]]
+type = "MultipleChoice"
+prompt.prompt = "What attribute denotes a method is a test and should be executed by the test runner?"
+prompt.distractors = [
+  "Test",
+  "Suite",
+  "xunit"
+]
+answer.answer = "Fact"
+context = """
+A method is denoted as a test and should be executed by the test runner using the 'Fact' attribute.
+"""
+
+[[questions]]
+type = "MultipleChoice"
+prompt.prompt = "What does the Red-Green-Refactor cycle involve?"
+prompt.distractors = [
+  "Lorem",
+  "Ipsum",
+  "Surrealism"
+]
+answer.answer = "Write a failing test - Write minimum code to pass test - Refactor to improve code without changing behavior"
+context = """
+The Red-Green-Refactor cycle involves writing a failing test, writing the minimum code to pass the test, and then refactoring the code without changing its behavior.
+"""
+
+[[questions]]
+type = "MultipleChoice"
+prompt.prompt = "Why do we use test doubles like mocks and stubs when unit testing?"
+prompt.distractors = [
+  "Lorem",
+  "To make testing our code easier when relying on services",
+  "Surrealism"
+]
+answer.answer = "In order to isolate code from its dependencies, in order to follow the practice of making sure to test only what is intended"
+context = """
+Test doubles like mocks and stubs are used in unit testing to isolate code from its dependencies and ensure that we test only what is intended.
+"""
+
+[[questions]]
+type = "MultipleChoice"
+prompt.prompt = "What attribute is used on test methods to denote it will run the test on multiple sets of inputs?"
+prompt.distractors = [
+  "InlineData",
+  "Fact",
+  "Table"
+]
+answer.answer = "Theory"
+context = """
+The 'Theory' attribute is used on test methods to indicate that they will run the test on multiple sets of inputs.
+"""
+
+[[questions]]
+type = "MultipleChoice"
+prompt.prompt = "What attribute is used along with the previous attribute to pass the actual data to a parameterized test?"
+prompt.distractors = [
+  "Theory",
+  "TableData",
+  "Data"
+]
+answer.answer = "InlineData"
+context = """
+The 'InlineData' attribute is used along with the 'Theory' attribute to pass the actual data to a parameterized test.
+"""
+
+[[questions]]
+type = "MultipleChoice"
+prompt.prompt = "What does 'test coverage' refer to in the context of unit testing software?"
+prompt.distractors = [
+  "Ipsum",
+  "Lorem",
+  "The number of tests in a given project"
+]
+answer.answer = "The amount of business logic covered by unit tests in a given project"
+context = """
+In the context of unit testing software, 'test coverage' refers to the amount of business logic covered by unit tests in a given project.
+"""
+
+[[questions]]
+type = "MultipleChoice"
+prompt.prompt = "_____ ______ are used to organize related tests."
+prompt.distractors = [
+  "Test Tables",
+  "Test Group",
+  "Suite Group"
+]
+answer.answer = "Test Suites"
+context = """
+Test Suites are used to organize related tests.
+"""
+
+[[questions]]
+type = "MultipleChoice"
+prompt.prompt = "Which of the following choices is a benefit of keeping our unit tests organized?"
+prompt.distractors = [
+  "Lorem",
+  "Ipsum",
+  "Surrealism"
+]
+answer.answer = "Dada"
+context = """
+One of the benefits of keeping unit tests organized is to maintain clarity and structure, which can be described as 'Dada' in this context.
+"""
